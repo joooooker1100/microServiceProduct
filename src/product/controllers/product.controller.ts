@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ProductService } from "../services/product.service";
 import { ProductInterface } from "../interfaces/product.interface";
 import { ProductModel } from "../model/product.model";
@@ -24,7 +24,7 @@ export class ProductController{
         return this.productService.getProducts()
     }
     @Delete(':id')
-    public async deleteProduct(id:string):Promise<void>{
+    public async deleteProduct(@Param('id')id:string):Promise<void>{
         await this.productService.deleteProduct(id)
     }
 

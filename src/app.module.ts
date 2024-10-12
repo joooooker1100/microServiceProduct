@@ -4,10 +4,12 @@ import { environment } from "./environment/environment";
 import { ProductModule } from "./product/product.module";
 import { WarehouseModule } from "./warehouse/warehouse.module";
 
+
 @Module({
-    imports:[ProductModule,WarehouseModule,
+    imports: [ProductModule
+        , WarehouseModule,
         MongooseModule.forRoot(environment.mongoDBUrl)]
 })
-export class AppModule{
+export class AppModule {
 
 }
