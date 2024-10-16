@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { environment } from 'src/environment/environment';
+import { environment } from '../../environment/environment';
+
 
 
 
 @Injectable()
 export class RabitService {
+  getProduct(sku: string) {
+      throw new Error("Method not implemented.");
+  }
 
   constructor() {
 
@@ -16,7 +20,7 @@ export class RabitService {
       transport: Transport.RMQ,
       options: {
         urls: [environment.rabbitMqUrl],
-        queue: 'product_queue',
+        queue: 'micro_queue',
         queueOptions: {
           durable: false
         },

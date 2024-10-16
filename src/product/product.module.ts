@@ -4,15 +4,17 @@ import { ProductController } from "./controllers/product.controller";
 
 import { MongooseModule } from "@nestjs/mongoose";
 import { productSchema, productSchemaName } from "./schema/product.schema";
-import { RabbitModule } from "src/rabbit/rabbit.servise.ts/rabbit.module";
+import { RabbitModule } from "../rabbit/rabbit.servise.ts/rabbit.module";
+import { WarehouseModule } from "../warehouse/warehouse.module";
 
 
 @Module({
-    imports: [RabbitModule,
+    imports: [RabbitModule,WarehouseModule,
         MongooseModule.forFeature([{
             schema: productSchema,
             name: productSchemaName
-        }])],
+        }
+    ])],
     providers: [ProductService],
     controllers: [ProductController]
 })

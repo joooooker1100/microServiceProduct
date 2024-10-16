@@ -5,7 +5,10 @@ import { ProductModel } from "../model/product.model";
 import { InjectModel } from "@nestjs/mongoose";
 import { productSchemaName } from "../schema/product.schema";
 import { RabitService } from "../../rabbit/rabbit.servise.ts/rabit.service"
-import { time } from "console";
+import { WareHouseService } from "../../warehouse/services/warehouse.service";
+
+
+
 
 
 @Injectable()
@@ -13,13 +16,23 @@ export class ProductService {
     constructor(
         @InjectModel(productSchemaName)
         private readonly productModel: Model<ProductModel>,
-        private readonly rabbiService: RabitService
+        private readonly rabbiService: RabitService,
+        private readonly wareHouseService: WareHouseService
+
     ) {
     }
     public async create(product: ProductInterface): Promise<ProductModel> {
         const material = await this.productModel.create(product);
-        await this.rabbiService.sendMessage('product-created', material)
+        const warehouseData = {
+            sku:material.sku,
+            qt:0,
+            location:'',
+            expire:new Date()
+        }
+        await this.rabbiService.sendMessage('product-created', material);
+        await this.wareHouseService.setStoke(warehouseData)
         return material;
+        
     }
 
     public async getProduct(id: string): Promise<ProductModel> {

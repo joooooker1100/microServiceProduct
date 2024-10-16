@@ -4,7 +4,7 @@ import { WareHouseController } from "./controllers/warehouse.controller";
 
 import { MongooseModule } from "@nestjs/mongoose";
 import { wareHouseSchema, wareHouseSchemaName } from "./schema/warehouse.schema";
-import { RabbitModule } from "src/rabbit/rabbit.servise.ts/rabbit.module";
+import { RabbitModule } from "../rabbit/rabbit.servise.ts/rabbit.module";
 
 @Module({
     imports: [RabbitModule,
@@ -13,7 +13,8 @@ import { RabbitModule } from "src/rabbit/rabbit.servise.ts/rabbit.module";
         name: wareHouseSchemaName
     }])],
     providers: [WareHouseService],
-    controllers: [WareHouseController]
+    controllers: [WareHouseController],
+    exports: [WareHouseService]
 })
 export class WarehouseModule {
 

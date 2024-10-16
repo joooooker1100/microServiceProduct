@@ -5,12 +5,13 @@ import { environment } from './environment/environment';
 
 
 
+
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.RMQ,
     options: {
       urls: [environment.rabbitMqUrl],
-      queue: 'product_queue',
+      queue: 'micro_queue',
       queueOptions: {
         durable: false
       },
