@@ -23,10 +23,9 @@ export class WareHouseService {
             return this.warehouseModel.findOneAndUpdate({ sku: warehouse.sku }, { $set: warehouse }, { upsert: false })
          
     }
-    public async getProduct(sku:string){
-        return this.warehouseModel.findOne({sku})
+    public async getProduct(sku: string): Promise<WareHouseInterface> {
+        return this.warehouseModel.findOne({ sku });
+      
 
-    }
 
-
-}
+}}

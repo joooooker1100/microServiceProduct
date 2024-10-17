@@ -5,9 +5,10 @@ import { WareHouseController } from "./controllers/warehouse.controller";
 import { MongooseModule } from "@nestjs/mongoose";
 import { wareHouseSchema, wareHouseSchemaName } from "./schema/warehouse.schema";
 import { RabbitModule } from "../rabbit/rabbit.servise.ts/rabbit.module";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
-    imports: [RabbitModule,
+    imports: [RabbitModule,HttpModule,
          MongooseModule.forFeature([{
         schema: wareHouseSchema,
         name: wareHouseSchemaName
