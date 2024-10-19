@@ -29,7 +29,13 @@ export class ProductService {
             location:'',
             expire:new Date()
         }
-        await this.rabbiService.sendMessage('product-created', material);
+        const status={
+            sku:material.sku,
+            title:material.title,
+            category:material.category,
+            status:""
+        }
+        await this.rabbiService.sendMessage('product-created', status);
         await this.wareHouseService.setStoke(warehouseData)
         return material;
         

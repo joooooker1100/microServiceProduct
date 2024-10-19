@@ -7,5 +7,6 @@ export const productSchema = new Schema({
     _id:{type : String , default:uuid},
     title: String,
     sku: String,
-    category: String
+    category: String,
+    status:Number
 })
