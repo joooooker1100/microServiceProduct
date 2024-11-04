@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from "@nestjs/common";
 import { WareHouseService } from "../services/warehouse.service";
 import { WareHouseModel } from "../model/warehouse.model";
 import { Ctx, MessagePattern, Payload, RmqContext } from "@nestjs/microservices";
@@ -24,15 +24,17 @@ export class WareHouseController {
 
 
   //   }
-  //  @Get(':sku')
-  // public async getProduct(@Param('sku') sku: string) {
-  //  const product = await this.warehouseService.getProduct(sku);
-  //  console.log(product.qt)
-  //  if(product.qt>0){
-  //   const status = {
-  //      sku:product.sku,
-  //      status:"mojod"
-  //     }
+    @Get(':sku')
+   public async getProduct(@Param('sku')sku: string, @Query('qt')qt:number ) {
+     console.log("qqqqqq",qt)
+     const tedad =qt;
+    const product = await this.warehouseService.findBySku(sku);
+    if(!product){
+      throw new NotFoundException(`Product with sku ${sku} not found`)
+   }
+   await this.warehouseService.decrementQt(product.sku,tedad)
+   return product
+  }
   //    await this.rabbitService.sendMessage('product-status', status)
   //    console.log(status);
   //     return { ...product,status };

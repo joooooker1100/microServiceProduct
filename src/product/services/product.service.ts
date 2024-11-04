@@ -22,23 +22,31 @@ export class ProductService {
     ) {
     }
     public async create(product: ProductInterface): Promise<ProductModel> {
-        const material = await this.productModel.create(product);
-        const warehouseData = {
-            sku:material.sku,
-            qt:0,
-            location:'',
-            expire:new Date()
-        }
-        const status={
-            sku:material.sku,
-            title:material.title,
-            category:material.category,
-            status:""
-        }
-        await this.rabbiService.sendMessage('product-created', status);
-        await this.wareHouseService.setStoke(warehouseData)
-        return material;
+        const exist = await this.productModel.findOne({sku:product.sku})
         
+        if(exist && exist.sku){
+            console.log(exist.sku)
+            throw new Error(`Product with SKU ${product.sku} already exists`);
+        }else{
+
+                const material = await this.productModel.create(product);
+                const warehouseData = {
+                    sku:material.sku,
+                    qt:0,
+                    location:'',
+                    expire:new Date()
+                }
+                const status={
+                    sku:material.sku,
+                    title:material.title,
+                    category:material.category,
+                    status:""
+                }
+                await this.rabbiService.sendMessage('product-created', status);
+                await this.wareHouseService.setProductInShop(warehouseData)
+                return material;
+            }
+
     }
 
     public async getProduct(id: string): Promise<ProductModel> {
